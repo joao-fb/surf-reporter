@@ -4,14 +4,33 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import datetime
+import os
 
 
 class Reporter:
-    def __init__(self, url, webdriver_path, x_arg):
+    def __init__(self, url, x_arg):
 
         # Replace below path with the absolute path
         # to chromedriver in your computer
-        self.driver = webdriver.Chrome(webdriver_path)
+
+        options = webdriver.ChromeOptions()
+
+        envioroment = os.environ["environment"]
+        if envioroment == 'test':
+            CHROMEDRIVER_PATH = '/Applications/chromedriver'
+
+        elif envioroment == 'prod':
+            CHROMEDRIVER_PATH = os.environ["CHROMEDRIVER_PATH"]
+            chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', "chromedriver")
+            options.binary_location = chrome_bin
+            options.add_argument(" — disable - gpu")
+            options.add_argument(" — no - sandbox")
+            options.add_argument(' — headless')
+
+        else:
+            CHROMEDRIVER_PATH = 'no path'
+
+        self.driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=options)
 
         self.driver.get(url)
         wait = WebDriverWait(self.driver, 600)
@@ -43,7 +62,6 @@ class Reporter:
                 energy = int(energy)
 
                 p_energies[report_date.strftime('%A, %d %b %Y')] = energy
-                print(p_energies)
                 day += 1
 
         return p_energies
