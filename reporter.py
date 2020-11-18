@@ -23,9 +23,10 @@ class Reporter:
             CHROMEDRIVER_PATH = os.environ["CHROMEDRIVER_PATH"]
             chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', "chromedriver")
             options.binary_location = chrome_bin
-            options.add_argument(" — disable - gpu")
-            options.add_argument(" — no - sandbox")
-            options.add_argument(' — headless')
+            options.add_argument("-—disable-gpu")
+            options.add_argument("-—no-sandbox")
+            options.add_argument('—-headless')
+            options.add_arguments("--disable-dev-shm-usage")
 
         else:
             CHROMEDRIVER_PATH = 'no path'

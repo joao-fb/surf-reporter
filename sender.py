@@ -16,10 +16,10 @@ del reporter
 
 for energy_key in p_energies.keys():
     energy = p_energies[energy_key]
-    if energy > 200:
+    if energy > 300:
         msg = f"Previsão das ondas para os próximos dias tem pelo menos {energy} J na PG!\n"
 
-        format_forecast = [k + ": " + str(p_energies[k]) for k in p_energies.keys()]
+        format_forecast = [f'{k}: {p_energies[k]}J' for k in p_energies.keys()]
         forecast = "\n".join(format_forecast)
 
         msg += forecast
